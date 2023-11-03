@@ -79,6 +79,7 @@ for root, dirs, files in os.walk(__builddir__):
         print(f"Compiling script {file} ...")
         subprocess.run(["py", "-3.11", ".\\clv2.3-p2.exe", os.path.join(root, file)] + extra_args, check=True)
         print("Done compiling, moving on to the next script.")
+# Adjust to your likeing, 2 processes is standard, but every configuration is stable and save (tested up to 8, remember that your cpu is really loaded the more you use (mine was often over 70%, sometimes over 80% and rarely at 100%)
 
 subprocess.run(["py", "-3.11", "-m", "nuitka", "--standalone", os.path.join(__isocha__, "main.py"), "--nofollow-imports"] + [f"--include-package={c}" for c in internalLibs if c.lower() not in enablePlugins] + #internalLibs + bundeledLibs
                [f"--enable-plugin={v}" for v in enablePlugins], check=True)
