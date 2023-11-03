@@ -77,7 +77,7 @@ print("Preperations done, compiling now!")
 for root, dirs, files in os.walk(__builddir__):
     for file in files:
         print(f"Compiling script {file} ...")
-        subprocess.run([".\\clv2.3-p2.exe", os.path.join(root, file)] + extra_args, check=True)
+        subprocess.run(["py", "-3.11", ".\\compile_libraries_v2.3-p2.py", os.path.join(root, file)] + extra_args, check=True)
         print("Done compiling, moving on to the next script.")
 # Adjust to your likeing, 2 processes is standard, but every configuration is stable and save (tested up to 8, remember that your cpu is really loaded the more you use (mine was often over 70%, sometimes over 80% and rarely at 100%)
 
