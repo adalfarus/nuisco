@@ -1,0 +1,2 @@
+[console_scripts]
+nic_compile = nic.build:build_main

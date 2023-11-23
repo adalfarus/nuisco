@@ -1,0 +1,14 @@
+LICENSE
+README.md
+setup.py
+nic/__init__.py
+nic/build.py
+nic/compile_libraries_v2.3.py
+nic/convert_socket.py
+nic/make_socket.py
+nic.egg-info/PKG-INFO
+nic.egg-info/SOURCES.txt
+nic.egg-info/dependency_links.txt
+nic.egg-info/entry_points.txt
+nic.egg-info/requires.txt
+nic.egg-info/top_level.txt

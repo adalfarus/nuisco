@@ -190,7 +190,7 @@ def process_library(args, extra_library_types):
         
     if uninstall_switch: execute_python_command(["-m", "pip", "uninstall", lib_name, "-y"], shell=True) # Need to uninstall it after compiling it (if it wasn't installed previously)
 
-def main(path_tc, extra_library_names, extra_library_types, output_dir):
+def main(path_tc, extra_library_names, extra_library_types, output_dir, processes):
     if path_tc.lower() != "none": # If there is a script to be crawled figure out which type and get lib names
         if os.path.isfile(path_tc): libraries_dict = crawl_file(path_tc)
         elif os.path.isdir(path_tc): libraries_dict = crawl_directory(path_tc)
@@ -220,7 +220,7 @@ def main(path_tc, extra_library_names, extra_library_types, output_dir):
         print("Removed", popped)
     print("Crawling deeper ...")
     partial_func = partial(process_library, extra_library_types=extra_library_types)
-    with Pool(processes=1) as p: # Adjust to your likeing, 2 is standard, but every configuration is stable and save (tested up to 8, remember that your cpu is really loaded the more you put, mine was often over 70%, sometimes over 80% and rarely at 100%)
+    with Pool(processes=processes) as p: # Adjust to your likeing, 2 is standard, but every configuration is stable and save (tested up to 8, remember that your cpu is really loaded the more you put, mine was often over 70%, sometimes over 80% and rarely at 100%)
         p.map(partial_func, libraries_dict.items())
     sys_path = "\\".join(sys.executable.split("\\")[:-1])
     for i in os.listdir(os.path.join(sys_path, "DLLs\\")):
@@ -230,13 +230,14 @@ def main(path_tc, extra_library_names, extra_library_types, output_dir):
 if __name__ == '__main__':
     if len(sys.argv) > 1: # If an argument was passed
         path_tc = sys.argv[1]
+        processes = int(sys.argv[2])
         extra_library_names, extra_library_types = [], {}
         for i, g in enumerate(sys.argv):
-            if i in [0, 1]: continue # Loop over the file name and the passed script name
+            if i in [0, 1, 2]: continue # Loop over the file name and the passed script name
             g_lst = g.split("-") # Split into module name and type
             extra_library_names.append(g_lst[0])
             extra_library_types[g_lst[0]] = (g_lst[1])
         print("Beginning to crawl ...")
-        main(path_tc, extra_library_names, extra_library_types, 'compiled_modules')
+        main(path_tc, extra_library_names, extra_library_types, 'compiled_modules', processes)
     else:
         print("Usage: __main__.py [Python-File] [Extra-Modules]-[type]\nPath to dir or file can be None, Extra-Modules either path or name and type either module, dll or dir.")
