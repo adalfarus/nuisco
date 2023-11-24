@@ -5,6 +5,7 @@ from aplustools.environment import remv
 import re
 import sys
 import argparse
+import itertools
 
 def build_main():
     def parse_libs(input):
@@ -67,10 +68,10 @@ def build_main():
         # Use the arguments
         source_directory = args.src
         output_directory = args.out
-        inLibs = args.inLibs
-        enablePlugins = args.enablePlugins
+        inLibs = list(itertools.chain(*args.inLibs))
+        enablePlugins = list(itertools.chain(*args.enablePlugins))
         p = args.p
-        extraArgs = args.extraArgs
+        extraArgs = list(itertools.chain(*args.extraArgs))
     else:
         source_directory, output_directory, inLibs, enablePlugins, p, extraArgs = [None]*6
     
@@ -81,13 +82,13 @@ def build_main():
     __srcdir__ = source_directory or ".\\YOURPROGRAM"
     __outdir__ = output_directory or ".\\YOURCOMPILEDPROGRAM"
     internalLibs = inLibs or ["PySide6"] # Libs that need to get tangled into the executable
-    print(internalLibs)
     enablePlugins = enablePlugins or ["pyside6"]
     bundeledLibs = ["sys", "itertools", "nt", "time", "marshal", "gc", "builtins", "math", "msvcrt", "atexit", "winreg", "array", "errno", "binascii"] # Libs that can't be compiled
     mainFound = False
     processes = p or 2
 
     extra_args = extraArgs or list()
+    print(internalLibs, enablePlugins, extra_args)
 
     for dir in (__builddir__, __isocha__): #, __outdir__
         if not os.path.exists(dir):
@@ -115,7 +116,8 @@ def build_main():
     for root, dirs, files in os.walk(__builddir__):
         for file in files:
             print(f"Compiling script {file} ...")
-            subprocess.run(["py", "-3.11", ".\\compile_libraries_v2.3.py", os.path.join(root, file)] + [str(processes)] + extra_args, check=True)
+            print(["py", "-3.11", ".\\compile_libraries_v2.3.py", os.path.join(root, file), str(processes)] + extra_args)
+            subprocess.run(["py", "-3.11", ".\\compile_libraries_v2.3.py", os.path.join(root, file), str(processes)] + extra_args, check=True)
             print("Done compiling, moving on to the next script.")
     # Adjust to your likeing, 2 processes is standard, but every configuration is stable and save (tested up to 8, remember that your cpu is really loaded the more you use (mine was often over 70%, sometimes over 80% and rarely at 100%)
 
