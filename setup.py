@@ -4,7 +4,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name='nic',
+    name='nuisco',
     version='0.1',
     description='A faster and more customizable compiler based on nuitka',
     author='Cariel Becker',
