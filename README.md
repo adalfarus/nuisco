@@ -1,9 +1,9 @@
-# Nuitka Isolation Compiler (NIC) Guide
+# Nuitka Isolation Compiler (nuisco) Guide
 [![Active Development](https://img.shields.io/badge/Maintenance%20Level-Actively%20Developed-brightgreen.svg)](https://gist.github.com/cheerfulstoic/d107229326a01ff0f333a1d3476e068d)
 [![Build Status](https://github.com/Adalfarus/nic/actions/workflows/python-publish.yml/badge.svg)](https://github.com/Adalfarus/nic/actions)
 [![License: GPL-3.0](https://img.shields.io/github/license/Adalfarus/nic)](https://github.com/Adalfarus/nic/blob/main/LICENSE)
 
-The NIC (Nuitka Isolation Compiler) is designed to enhance the speed of Nuitka compilation while providing greater flexibility in the post-compilation customization. This utility is optimized for Python version 3.11 and should not be utilized with version 3.12.
+The nuisco (Nuitka Isolation Compiler) is designed to enhance the speed of Nuitka compilation while providing greater flexibility in the post-compilation customization. This utility is optimized for Python version 3.11 and should not be utilized with version 3.12.
 
 To begin, place your project within a directory named YOURPROGRAM. Ensure that the primary script, which initiates your program, is labeled as main.py. When this is set up, execute the build.py script. Additional arguments can be provided to include extra libraries, which should be specified with the library name followed by its type from the following list: [module, dll, dir, modulepy, dirpy, py].
 
