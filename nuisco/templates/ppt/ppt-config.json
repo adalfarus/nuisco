@@ -1,0 +1,18 @@
+{
+    "files": ["src/main.py", "src/modules/classes.py", "src/modules/gui.py", "src/modules/link.py", "src/modules/modulebase.py"],
+    "os_specific": {
+        "Windows": ["build.bat", "dist.bat", "dist_install.bat", "install.bat", "run.bat", "inno_setup_script.iss"],
+        "Linux": ["build.sh", "dist.sh", "dist_install.sh", "install.sh", "run.sh"]
+    },
+	"github_files": [".gitignore", "CONTRIBUTING.md", "README.md", "/.git/description"],
+    "dependencies": {
+        "requirements_files": ["dev-requirements.txt"],
+        "direct_dependencies": [],
+		"force_install_direct_dependencies": false
+    },
+    "placeholders": {
+        "project_name": "{{project_name}}",
+        "pyversion": "{{pyversion}}",
+		"welcome_message": "{{exec:'Welcome to ' + project_name}}"
+    }
+}

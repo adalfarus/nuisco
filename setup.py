@@ -17,7 +17,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'nic_compile = nic.build:build_main',
+            'nuisco = nuisco.main:console_script',
         ],
     },
     long_description=long_description,
