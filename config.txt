@@ -1,4 +1,4 @@
-[nuisco-config] # This is not implemented yet
+[nuisco-config] # This is not implemented yet maybe add automatically making the _socket.pyd file?
 compiled_modules_folder=package/compiled_modules
 default_src_folder=./YOUR_PROGRAM
 default_out_folder=./YOUR_COMPILED_PROGRAM
