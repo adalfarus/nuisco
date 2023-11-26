@@ -49,9 +49,9 @@ Anticipated updates in clv3.0 include:
 - Modular level imports to further decrease size, which will be either categorized into directories or modules, necessitating a mechanism to decide the optimal approach.
 
 ## Utilizing Built-In Templates with Nuisco
-Nuisco comes equipped with pre-defined templates, including the Python Project Template (ppt) and the Python Package Template (ppat). You can create a template at the current location using the sub-command `create-template` followed by the project name and the template name e.g. ppt `--template-name=ppt`. These templates are readily available for use and can be found in the `nuisco/templates` directory. Additionally, you have the option to create your own custom templates following the established structure.
+Nuisco comes equipped with pre-defined templates, including the Python Project Template (ppt) and the Python Package Template (ppat). You can create a template at the current location using the sub-command `create-template` followed by the project name and the template name e.g. ppt `--template-name=ppt`. These templates are readily available for use and can be found in the package directory (`%userprofile%/AppData/local/Programs/Python/Python311/Lib/site-packages/nuisco/templates`). Additionally, you have the option to create your own custom templates following the established structure.
 
-To better understand how to configure these templates, let's examine the complete `ppt-config.json` file:
+To better understand how to configure these templates, let's examine the `ppt-config.json` file:
 
 ```json
 {
