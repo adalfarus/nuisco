@@ -5,7 +5,9 @@
 
 The nuisco (Nuitka Isolation Compiler) is designed to enhance the speed of Nuitka compilation while providing greater flexibility in the post-compilation customization. This utility is optimized for Python version 3.11 and should not be utilized with version 3.12.
 
-To begin, place your project within a directory named YOURPROGRAM. Ensure that the primary script, which initiates your program, is labeled as main.py. When this is set up, execute the build.py script. Additional arguments can be provided to include extra libraries, which should be specified with the library name followed by its type from the following list: [module, dll, dir, modulepy, dirpy, py].
+## Utilizing the Build Feature in Nuisco
+
+When using the build feature in Nuisco, start by placing your project in a directory named after your program (e.g., YOURPROGRAM). Make sure the main script of your project is named main.py. To initiate the build process, use the build sub-command in Nuisco. This command supports additional arguments for including extra libraries. Specify these libraries by their name and type, using the following types:
 
 - Module: For individual scripts or directories containing only Python source files.
 - DLL: For any .pyd files.
@@ -21,7 +23,7 @@ Once the dependencies are compiled, the entirety of the program is relocated to 
 For my particular project, the successful command was:
 
 ```bash
-py -3.11 build.py select-dll urllib3-module hmac-module email-module http-dirpy
+nuisco build --src=./src --out=./out --extraArgs=select-dll urllib3-module hmac-module email-module http-dirpy
 ```
 
 Crashes may occur sporadically. Typically, rerunning the script resolves the issue, but if the problem persists, report it on our GitHub repository's bug tracker.
@@ -45,3 +47,44 @@ Anticipated updates in clv3.0 include:
 - Verification of the library's operating system, Python version, and architecture prior to duplication.
 - A localized checklist of essential imports to minimize the unnecessary bulk of the libs directory.
 - Modular level imports to further decrease size, which will be either categorized into directories or modules, necessitating a mechanism to decide the optimal approach.
+
+## Utilizing Built-In Templates with Nuisco
+Nuisco comes equipped with pre-defined templates, including the Python Project Template (ppt) and the Python Package Template (ppat). You can create a template at the current location using the sub-command `create-template` followed by the project name and the template name e.g. ppt `--template-name=ppt`. These templates are readily available for use and can be found in the `nuisco/templates` directory. Additionally, you have the option to create your own custom templates following the established structure.
+
+To better understand how to configure these templates, let's examine the complete `ppt-config.json` file:
+
+```json
+{
+    "files": [
+        "src/__init__.py", "src/main.py", 
+        "src/modules/classes.py", "src/modules/gui.py", "src/modules/link.py", "src/modules/modulebase.py", 
+        "data/Create_your_own.txt", "data/logo-1.ico", "data/logo-1.png", "data/logo-2.ico", "data/logo-2.png", 
+        "data/logo-3.ico", "data/logo-3.png", "data/logo-4.ico", "data/logo-4.png", "data/logo-5.ico", 
+        "data/logo-5.png", "data/logo-6.ico", "data/logo-6.png", "data/logo-raw.ico", "data/logo-raw.png", 
+        "docs/classes.md", "docs/gui.md", "docs/link.md", "docs/main.md", 
+        "tests/__init__.py", "tests/test_main.py", 
+        "venv/TBA", 
+        ".env", ".flake8", "Makefile", "pylint.rc"
+    ],
+    "os_specific": {
+        "Windows": ["build.bat", "create_dist.bat", "install_dist.bat", "install.bat", "run.bat", "inno_setup_script.iss"],
+        "Linux": ["build.sh", "create_dist.sh", "install_dist.sh", "install.sh", "run.sh", "scripts.sh"]
+    },
+    "github_files": [".gitignore", "CONTRIBUTING.md", "README.md", ".git/description", ".github/workflows/ci.yml"],
+    "dependencies": {
+        "requirements_files": ["dev-requirements.txt"],
+        "direct_dependencies": [],
+        "force_install_direct_dependencies": false
+    },
+    "placeholders": {
+        "project_name": "{{project_name}}",
+        "pyversion": "{{pyversion}}",
+        "welcome_message": "{{exec:'Welcome to ' + project_name}}"
+    }
+}
+```
+
+This configuration outlines various options, including advanced settings for different operating systems. A key point to note is that Nuisco will attempt to compile any file located in the `src` directory. Therefore, it is crucial to avoid placing non-source files like text, images, or log files in the `src` directory during compilation, or to remove them beforehand.
+
+### Help Feature in Nuisco
+For additional assistance, Nuisco offers a `help` sub-command which provides a list of all sub-commands and the required arguments for them, making it easier to navigate and utilize the platform effectively.
