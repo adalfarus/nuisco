@@ -1,7 +1,7 @@
 {
     "files": ["src/__init__.py", "src/main.py", 
 			  "src/modules/classes.py", "src/modules/gui.py", "src/modules/link.py", "src/modules/modulebase.py", 
-			  "src/data/Create_your_own.txt", "src/data/logo-1.ico", "src/data/logo-1.png", "src/data/logo-2.ico", "src/data/logo-2.png", "src/data/logo-3.ico", "src/data/logo-3.png", "src/data/logo-4.ico", "src/data/logo-4.png", "src/data/logo-5.ico", "src/data/logo-5.png", "src/data/logo-6.ico", "src/data/logo-6.png", "src/data/logo-raw.ico", "src/data/logo-raw.png", 
+			  "data/Create_your_own.txt", "data/logo-1.ico", "data/logo-1.png", "data/logo-2.ico", "data/logo-2.png", "data/logo-3.ico", "data/logo-3.png", "data/logo-4.ico", "data/logo-4.png", "data/logo-5.ico", "data/logo-5.png", "data/logo-6.ico", "data/logo-6.png", "data/logo-raw.ico", "data/logo-raw.png", 
 			  "docs/classes.md", "docs/gui.md", "docs/link.md", "docs/main.md", 
 			  "tests/__init__.py", "tests/test_main.py", 
 			  "venv/TBA", 
