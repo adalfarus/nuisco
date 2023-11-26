@@ -11,7 +11,7 @@
         "Windows": ["build.bat", "create_dist.bat", "install_dist.bat", "install.bat", "run.bat", "inno_setup_script.iss"],
         "Linux": ["build.sh", "create_dist.sh", "install_dist.sh", "install.sh", "run.sh", "scripts.sh"]
     },
-	"github_files": [".gitignore", "CONTRIBUTING.md", "README.md", ".git/description", ".github/workflows/ci.yml"],
+	"github_files": [".gitignore", "CONTRIBUTING.md", "README.md", "/.git/description", ".github/workflows/ci.yml"],
     "dependencies": {
         "requirements_files": ["dev-requirements.txt"],
         "direct_dependencies": [],

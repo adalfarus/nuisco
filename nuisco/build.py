@@ -3,23 +3,12 @@ import os
 import shutil
 from aplustools.environment import remv
 import re
-import sys
-import argparse
-import itertools
+import pkg_resources
 
-def build_main():
-    def parse_libs(input):
-        if not isinstance(input, list): libs = input.split(",")
-        else: libs = libs
-        #for item in input_list:
-        #    # Split by comma if comma exists
-        #    if ',' in item:
-        #        libs.extend(item.split(','))
-        #    else:
-        #        libs.append(item)
-        print("libs", libs)
-        return libs
+def access_resource(relative_path):
+    return pkg_resources.resource_filename('nuisco', relative_path)
 
+def build_main(src, out, inLibs, enablePlugins, p, extraArgs):
     def extract_library(line):
         # Handle "import xxx"
         if line.startswith("import "):
@@ -36,7 +25,6 @@ def build_main():
             f1.write("import config\nimport external_imports\n")
             xy, combined_lines = False, ""
             count = 0
-            print(bundeledLibs, internalLibs)
             while count < len(fileData):
                 line = fileData[count]
                 if line.startswith("import ") or line.startswith("from ") and " import " in line and not "import (" in line: # " import ("
@@ -51,36 +39,13 @@ def build_main():
                 count += 1
         with open(os.path.join(__builddir__, "external_imports.py"), "w") as f2:
             for i in f2_lst: f2.write(i)
-            
-    if len(sys.argv) > 1:
-        # Set up the argument parser
-        parser = argparse.ArgumentParser(description="Build and compile a Python project.")
-        parser.add_argument('--src', type=str, help='Source directory of the program to compile', required=True)
-        parser.add_argument('--out', type=str, help='Output directory for the compiled program', required=True)
-        parser.add_argument('--inLibs', nargs='+', type=parse_libs, help='Which libs need to get tangeld into the executable.', required=False)
-        parser.add_argument('--enablePlugins', nargs='+', type=parse_libs, help='Which plugins need to get enabled for nuitka.', required=False)
-        parser.add_argument('--p', type=int, help='How many processes your program will have', required=False)
-        parser.add_argument('--extraArgs', nargs='+', type=parse_libs, help='The traditional extra arguments', required=False)
-
-        # Parse the arguments
-        args = parser.parse_args()
-
-        # Use the arguments
-        source_directory = args.src
-        output_directory = args.out
-        inLibs = list(itertools.chain(*args.inLibs))
-        enablePlugins = list(itertools.chain(*args.enablePlugins))
-        p = args.p
-        extraArgs = list(itertools.chain(*args.extraArgs))
-    else:
-        source_directory, output_directory, inLibs, enablePlugins, p, extraArgs = [None]*6
     
     subprocess.run(["py", "-3.11", "-m", "pip", "install", "nuitka==1.8.4"], check=True)#, "--upgrade"], check=True)
 
     __builddir__ = ".\\buildFiles"
     __isocha__ = ".\\isolationChamber"
-    __srcdir__ = source_directory or ".\\YOURPROGRAM"
-    __outdir__ = output_directory or ".\\YOURCOMPILEDPROGRAM"
+    __srcdir__ = src or ".\\YOURPROGRAM"
+    __outdir__ = out or ".\\YOURCOMPILEDPROGRAM"
     internalLibs = inLibs or ["PySide6"] # Libs that need to get tangled into the executable
     enablePlugins = enablePlugins or ["pyside6"]
     bundeledLibs = ["sys", "itertools", "nt", "time", "marshal", "gc", "builtins", "math", "msvcrt", "atexit", "winreg", "array", "errno", "binascii"] # Libs that can't be compiled
@@ -88,7 +53,6 @@ def build_main():
     processes = p or 2
 
     extra_args = extraArgs or list()
-    print(internalLibs, enablePlugins, extra_args)
 
     for dir in (__builddir__, __isocha__): #, __outdir__
         if not os.path.exists(dir):
@@ -116,8 +80,8 @@ def build_main():
     for root, dirs, files in os.walk(__builddir__):
         for file in files:
             print(f"Compiling script {file} ...")
-            print(["py", "-3.11", ".\\compile_libraries_v2.3.py", os.path.join(root, file), str(processes)] + extra_args)
-            subprocess.run(["py", "-3.11", ".\\compile_libraries_v2.3.py", os.path.join(root, file), str(processes)] + extra_args, check=True)
+            path = access_resource(".\\compile_libraries_v2.3.py")
+            subprocess.run(["py", "-3.11", path, os.path.join(root, file), str(processes)] + extra_args, check=True)
             print("Done compiling, moving on to the next script.")
     # Adjust to your likeing, 2 processes is standard, but every configuration is stable and save (tested up to 8, remember that your cpu is really loaded the more you use (mine was often over 70%, sometimes over 80% and rarely at 100%)
 

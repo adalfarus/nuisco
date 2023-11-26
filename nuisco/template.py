@@ -4,9 +4,14 @@ import shutil
 import platform
 import sys
 import subprocess
+import pkg_resources
+
+def access_resource(relative_path='templates'):
+    return pkg_resources.resource_filename('nuisco', relative_path)
 
 def load_template_configs(templates_dir='templates'):
     configs = {}
+    templates_dir = access_resource(templates_dir)
     for template_name in os.listdir(templates_dir):
         template_dir = os.path.join(templates_dir, template_name)
         if os.path.isdir(template_dir):
@@ -27,8 +32,24 @@ def execute_placeholder_code(code):
     else:
         return "Execution cancelled by user"
 
+def get_file_path_content(dest_file_path):
+    try:
+        with open(dest_file_path, 'r') as file:
+            content = file.read()
+        return content
+    except Exception as e:
+        try:
+            return ""
+            with open(dest_file_path, 'rb') as file:
+                content = file.read()
+            return content#bytes(placeholder, 'utf-8') in content
+        except Exception as e:
+            print(f"Error processing {dest_file_path}: {e}")
+            return ""
+
 def create_template(project_name, template_name, templates_dir='templates', pyversion=None, github=False, install_requirements=False):
     configs = load_template_configs(templates_dir)
+    templates_dir = access_resource(templates_dir)
     config = configs.get(template_name)
     if not config:
         raise ValueError(f"Template {template_name} configuration not found")
@@ -74,6 +95,7 @@ def create_template(project_name, template_name, templates_dir='templates', pyve
         subprocess.run([sys.executable, '-m', 'pip', 'install'] + direct_dependencies)
 
     for file_name in files_to_include:
+        print(f"Creating {template_path}{file_name}")
         src_file_path = os.path.join(template_path, file_name)
         dest_file_path = os.path.join(target_path, file_name)
 
@@ -88,8 +110,7 @@ def create_template(project_name, template_name, templates_dir='templates', pyve
 
         shutil.copy(src_file_path, dest_file_path)
 
-        with open(dest_file_path, 'r') as file:
-            content = file.read()
+        content = get_file_path_content(dest_file_path)#find_placeholders_in_file()
 
         for placeholder, value in config.get('placeholders', {}).items():
             if value.startswith('exec:'):
@@ -106,4 +127,5 @@ def create_template(project_name, template_name, templates_dir='templates', pyve
         subprocess.run([sys.executable, '-m', 'pip', 'install', '-r', requirements_file_path])
 
 # Usage
-create_template('my_new_project', 'ppt', pyversion=None, github=True, install_requirements=True)
+if __name__ == "__main__":
+    create_template('my_new_project', 'ppt', pyversion=None, github=True, install_requirements=True)

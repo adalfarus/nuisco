@@ -3,7 +3,7 @@
 
 # Define the build directory and the output file
 BUILD_DIR="./build"
-OUTPUT_FILE="pyprojecttemplate-0.1.0.tar.gz"
+OUTPUT_FILE="{{project_name}}-pyprojecttemplate-0.1.0.tar.gz"
 
 # Check if the build directory exists and is not empty
 if [ ! -d "$BUILD_DIR" ]; then

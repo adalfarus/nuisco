@@ -6,7 +6,10 @@ import ast
 import os
 from multiprocessing import Pool
 from functools import partial
+import pkg_resources
 
+def access_resource(relative_path):
+    return pkg_resources.resource_filename('nuisco', relative_path)
 
 def execute_python_command(arguments=None, run=False, *args, **kwargs): # Added to remain consistant with executing in same python enviornment
     if arguments == None: arguments = []
@@ -158,7 +161,7 @@ def compile_and_cleanup(args):
 def process_library(args, extra_library_types):
     lib_name, data = args
     full_path, uninstall_switch = data
-    output_dir = ".\\compiled_modules"
+    output_dir = access_resource(".\\compiled_modules")
     if "".join(full_path.split("\\")[-1]).split(".")[0] == "__init__":
         isinit = True
     else:
@@ -238,6 +241,8 @@ if __name__ == '__main__':
             extra_library_names.append(g_lst[0])
             extra_library_types[g_lst[0]] = (g_lst[1])
         print("Beginning to crawl ...")
-        main(path_tc, extra_library_names, extra_library_types, 'compiled_modules', processes)
+        path = access_resource('compiled_modules')
+        if not os.path.exists(path): os.mkdir(path)
+        main(path_tc, extra_library_names, extra_library_types, path, processes)
     else:
         print("Usage: __main__.py [Python-File] [Extra-Modules]-[type]\nPath to dir or file can be None, Extra-Modules either path or name and type either module, dll or dir.")

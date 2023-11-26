@@ -1,0 +1,9 @@
+[nuisco-config] # This is not implemented yet
+compiled_modules_folder=package/compiled_modules
+default_src_folder=./YOUR_PROGRAM
+default_out_folder=./YOUR_COMPILED_PROGRAM
+default_processes=2
+default_github=0
+default_install_requirements=0
+default_compiler=clv3.0
+auto_retry_if_comp_failed=0

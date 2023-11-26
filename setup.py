@@ -1,11 +1,21 @@
 from setuptools import setup, find_packages
+import os
+
+def package_files(directory):
+    paths = []
+    for (path, directories, filenames) in os.walk(directory):
+        for filename in filenames:
+            paths.append(os.path.join('..', path, filename))
+    return paths
+    
+extra_files = package_files('nuisco/templates')
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
     name='nuisco',
-    version='0.2.0',
+    version='0.2.3',
     description='A faster and more customizable compiler based on nuitka',
     author='Cariel Becker',
     license='GPL-3.0',
@@ -26,6 +36,6 @@ setup(
     tests_require=['pytest==4.4.1'],
     test_suite='tests',
     package_data={
-        'nic': ['compile_libraries_v2.3.exe'],
+        'nuisco': ['compile_libraries_v2.3.exe'] + extra_files,#, 'templates/*.json', 'templates/*/*'],
     }
 )
