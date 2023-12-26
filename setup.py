@@ -15,7 +15,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='nuisco',
-    version='0.2.3',
+    version='0.2.4',
     description='A faster and more customizable compiler based on nuitka',
     author='Cariel Becker',
     license='GPL-3.0',

@@ -80,7 +80,7 @@ def build_main(src, out, inLibs, enablePlugins, p, extraArgs):
     for root, dirs, files in os.walk(__builddir__):
         for file in files:
             print(f"Compiling script {file} ...")
-            path = access_resource(".\\compile_libraries_v2.3.py")
+            path = access_resource(".\\compile_libraries_v2.7.py")
             subprocess.run(["py", "-3.11", path, os.path.join(root, file), str(processes)] + extra_args, check=True)
             print("Done compiling, moving on to the next script.")
     # Adjust to your likeing, 2 processes is standard, but every configuration is stable and save (tested up to 8, remember that your cpu is really loaded the more you use (mine was often over 70%, sometimes over 80% and rarely at 100%)
