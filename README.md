@@ -1,7 +1,7 @@
 # Nuitka Isolation Compiler (nuisco) Guide
 [![Actively Maintained](https://img.shields.io/badge/Maintenance%20Level-Actively%20Maintained-green.svg)](https://gist.github.com/cheerfulstoic/d107229326a01ff0f333a1d3476e068d)
 [![Build Status](https://github.com/Adalfarus/nuisco/actions/workflows/python-publish.yml/badge.svg)](https://github.com/Adalfarus/nuisco/actions)
-[![License: GPL-3.0](https://img.shields.io/github/license/Adalfarus/nuisco)](https://github.com/Adalfarus/nuisco/blob/main/LICENSE)
+[![License: LGPL-2.1](https://img.shields.io/github/license/Adalfarus/nuisco)](https://github.com/Adalfarus/nuisco/blob/main/LICENSE)
 
 The nuisco (Nuitka Isolation Compiler) is designed to enhance the speed of Nuitka compilation while providing greater flexibility in the post-compilation customization. This utility is optimized for Python version 3.11 and should not be utilized with version 3.12.
 
